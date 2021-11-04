@@ -9,22 +9,15 @@ public class PlayerMovement : MonoBehaviour
 
     public Rigidbody rb;
 
-    // Update is called once per frame
+    private MovementScript movementScript;
+
+    private void Start()
+    {
+        movementScript = new RBBasedMovement(rb, transform);
+    }
+
     void Update()
     {
-
-        float xInput = Input.GetAxis("Horizontal");
-        float zInput = Input.GetAxis("Vertical");
-        Vector3 direction = zInput * transform.forward + xInput * transform.right;
-
-        MoveCharacter(direction);
+        movementScript.PerformMove(movementSpeed);
     }
-
-
-    private void MoveCharacter(Vector3 direction)
-    {
-        rb.MovePosition(transform.position + (direction * movementSpeed * Time.deltaTime));
-    }
-
-
 }
