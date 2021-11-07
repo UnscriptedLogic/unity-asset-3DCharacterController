@@ -18,6 +18,12 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        movementScript.PerformMove(movementSpeed);
+
+        float xInput = Input.GetAxis("Horizontal");
+        float zInput = Input.GetAxis("Vertical");
+        Vector3 direction = new Vector3(xInput, 0f, zInput);
+
+
+        movementScript.PerformMove(movementSpeed, direction);
     }
 }

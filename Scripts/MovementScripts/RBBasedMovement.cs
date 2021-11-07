@@ -25,6 +25,6 @@ public class RBBasedMovement : MovementScript
 
     public override void PerformMove(float speed, Vector3 direction)
     {
-        throw new System.NotImplementedException();
+        rb.MovePosition(entity.position + (direction * speed * Time.deltaTime));
     }
 }
