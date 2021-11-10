@@ -25,6 +25,15 @@ public class RBGridBasedMovement : MovementScript
 
     public override void PerformMove(float speed, Vector3 direction)
     {
-        throw new System.NotImplementedException();
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            speed *= 2f;
+            Debug.Log("Hello World");
+        }
+
+        Debug.Log("Working!");
+
+
+        rb.MovePosition(entity.position + (direction * speed * Time.deltaTime));
     }
 }
