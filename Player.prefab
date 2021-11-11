@@ -127,7 +127,6 @@ GameObject:
   - component: {fileID: 1487911606706855844}
   - component: {fileID: 5835167131343859504}
   - component: {fileID: 355720589}
-  - component: {fileID: 7059333295814540488}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -163,12 +162,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9868828ad72dfd429c88e44a42c0378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 10
-  sprintSpeed: 2
+  speed: 10
+  jump: 0
   mouseSens: {x: 200, y: 200}
+  mouseClamp: {x: -90, y: 90}
   rb: {fileID: 355720589}
-  cameraTransform: {fileID: 1687258585}
-  inputScript: {fileID: 7059333295814540488}
+  cam: {fileID: 1687258585}
 --- !u!54 &355720589
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -185,18 +184,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &7059333295814540488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7616225569076941943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2923c750e950b94187bab14713ed157, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7862974456463881187
 GameObject:
   m_ObjectHideFlags: 0
