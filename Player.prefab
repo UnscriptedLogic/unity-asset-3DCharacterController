@@ -125,8 +125,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1487911606706855844}
-  - component: {fileID: 2496598810061304173}
-  - component: {fileID: 355720590}
+  - component: {fileID: 5835167131343859504}
   - component: {fileID: 355720589}
   m_Layer: 0
   m_Name: Player
@@ -151,7 +150,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2496598810061304173
+--- !u!114 &5835167131343859504
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -160,28 +159,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 7616225569076941943}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b30f1ca6a9d6b304d836cde41bc9237a, type: 3}
+  m_Script: {fileID: 11500000, guid: d9868828ad72dfd429c88e44a42c0378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseXSens: 125
-  mouseYSens: 125
-  clampRot: {x: -90, y: 90}
-  camTransform: {fileID: 1687258585}
---- !u!114 &355720590
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7616225569076941943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f70ddeff8e1ece547b56f54342f660cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementSpeed: 10
-  jumpHeight: 0
+  speed: 10
+  jump: 0
+  mouseSens: {x: 200, y: 200}
+  mouseClamp: {x: -90, y: 90}
   rb: {fileID: 355720589}
+  cam: {fileID: 1687258585}
 --- !u!54 &355720589
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -196,7 +182,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1 &7862974456463881187
 GameObject:
