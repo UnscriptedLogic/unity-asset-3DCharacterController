@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 1487911606706855844}
   - component: {fileID: 5835167131343859504}
   - component: {fileID: 355720589}
+  - component: {fileID: 407973019184382227}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -168,6 +169,7 @@ MonoBehaviour:
   mouseClamp: {x: -90, y: 90}
   rb: {fileID: 355720589}
   cam: {fileID: 1687258585}
+  inputSc: {fileID: 407973019184382227}
 --- !u!54 &355720589
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -184,6 +186,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &407973019184382227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7616225569076941943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2923c750e950b94187bab14713ed157, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputs:
+  - keybindName: Sprint
+    triggerKey: 304
+    keyActive: 0
 --- !u!1 &7862974456463881187
 GameObject:
   m_ObjectHideFlags: 0

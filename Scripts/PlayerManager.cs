@@ -15,6 +15,9 @@ public class PlayerManager : MonoBehaviour
     [Header("Components")]
     public Rigidbody rb;
     public Transform cam;
+    public InputScript inputSc;
+
+    MovementScript moveSc;
 
     float xRotation = 0;
 
@@ -22,52 +25,14 @@ public class PlayerManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        moveSc = new SprintMovementScript(inputSc, 0);
     }
 
     private void Update()
     {
-        float xInput = Input.GetAxis("Horizontal");
-        float zInput = Input.GetAxis("Vertical");
-        Vector3 direction = transform.forward * zInput + transform.right * xInput;
-
-
-        float mouseX = Input.GetAxis("Mouse X") * mouseSens.x * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSens.y * Time.deltaTime;
-        Vector2 mouseDir = new Vector3(mouseX, mouseY);
-
-        if (Input.GetKey(KeyCode.Space))
-        {
-            Jump();
-        }
-
-        if (Input.GetKey(KeyCode.LeftControl))
-        {
-            Crouch();
-        }
-
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            Sprint();
-        }
-
-        RotateCamera(mouseDir);
-
-        MoveCharacter(speed, direction, rb);
-    }
-
-    private void Sprint()
-    {
-        throw new NotImplementedException();
-    }
-
-    private void Crouch()
-    {
-        throw new NotImplementedException();
-    }
-
-    private void Jump()
-    {
-        throw new NotImplementedException();
+        RotateCamera(inputSc.GatherMouseAxis(mouseSens));
+        moveSc.MoveCharacter(transform, speed, inputSc.GatherInputAxis().normalized, rb);
     }
 
     private void RotateCamera(Vector2 mouseDirection)
@@ -78,10 +43,4 @@ public class PlayerManager : MonoBehaviour
         cam.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseDirection.x);
     }
-
-    private void MoveCharacter(float speed, Vector3 direction, Rigidbody rb)
-    {
-        rb.MovePosition(transform.position + (direction * speed * Time.deltaTime));
-    }
-
 }
