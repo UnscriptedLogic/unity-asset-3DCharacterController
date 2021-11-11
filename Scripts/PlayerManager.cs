@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviour
     [Header("Components")]
     public Rigidbody rb;
     public Transform cam;
+    public InputScript inputScript;
 
     float xRotation = 0;
 
@@ -26,48 +27,8 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
-        float xInput = Input.GetAxis("Horizontal");
-        float zInput = Input.GetAxis("Vertical");
-        Vector3 direction = transform.forward * zInput + transform.right * xInput;
-
-
-        float mouseX = Input.GetAxis("Mouse X") * mouseSens.x * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSens.y * Time.deltaTime;
-        Vector2 mouseDir = new Vector3(mouseX, mouseY);
-
-        if (Input.GetKey(KeyCode.Space))
-        {
-            Jump();
-        }
-
-        if (Input.GetKey(KeyCode.LeftControl))
-        {
-            Crouch();
-        }
-
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            Sprint();
-        }
-
-        RotateCamera(mouseDir);
-
-        MoveCharacter(speed, direction, rb);
-    }
-
-    private void Sprint()
-    {
-        throw new NotImplementedException();
-    }
-
-    private void Crouch()
-    {
-        throw new NotImplementedException();
-    }
-
-    private void Jump()
-    {
-        throw new NotImplementedException();
+        RotateCamera(inputScript.GatherMouseAxis(mouseSens));
+        MoveCharacter(speed, inputScript.GatherInputAxis(), rb);
     }
 
     private void RotateCamera(Vector2 mouseDirection)
@@ -79,8 +40,13 @@ public class PlayerManager : MonoBehaviour
         transform.Rotate(Vector3.up * mouseDirection.x);
     }
 
-    private void MoveCharacter(float speed, Vector3 direction, Rigidbody rb)
+    public void MoveCharacter(float speed, Vector3 direction, Rigidbody rb)
     {
+        if (inputScript.inputs[0].keyActive)
+        {
+            speed *= 2f;
+        }
+
         rb.MovePosition(transform.position + (direction * speed * Time.deltaTime));
     }
 
