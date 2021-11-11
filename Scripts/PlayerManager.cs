@@ -7,7 +7,7 @@ public class PlayerManager : MonoBehaviour
 {
     [Header("Attributes")]
     public float speed = 10f;
-    public float jump;
+    public float jump = 5f;
     [Space]
     public Vector2 mouseSens = new Vector2(200f, 200f);
     public Vector2 mouseClamp = new Vector2(-90f, 90f);
@@ -16,31 +16,21 @@ public class PlayerManager : MonoBehaviour
     public Rigidbody rb;
     public Transform cam;
     public InputScript inputSc;
+    public PlayerCameraScript cameraSc;
 
     MovementScript moveSc;
-
-    float xRotation = 0;
 
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        moveSc = new SprintMovementScript(inputSc, 0);
+        moveSc = new SprintMovementScript(inputSc, rb, speed / 5f, jump);
     }
 
     private void Update()
     {
-        RotateCamera(inputSc.GatherMouseAxis(mouseSens));
+        cameraSc.RotateCamera(inputSc.GatherMouseAxis(mouseSens), mouseClamp, cam);
         moveSc.MoveCharacter(transform, speed, inputSc.GatherInputAxis().normalized, rb);
-    }
-
-    private void RotateCamera(Vector2 mouseDirection)
-    {
-        xRotation -= mouseDirection.y;
-        xRotation = Mathf.Clamp(xRotation, mouseClamp.x, mouseClamp.y);
-
-        cam.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        transform.Rotate(Vector3.up * mouseDirection.x);
     }
 }

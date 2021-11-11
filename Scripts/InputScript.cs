@@ -11,6 +11,12 @@ public class InputScript : MonoBehaviour
         public string keybindName;
         public KeyCode triggerKey;
         [HideInInspector] public bool keyActive;
+        public event Action eventTrigger;
+
+        public void TriggerEvent()
+        {
+            eventTrigger?.Invoke();
+        }
     }
 
     public List<Inputs> inputs = new List<Inputs>();
@@ -19,7 +25,12 @@ public class InputScript : MonoBehaviour
     {
         for (int i = 0; i < inputs.Count; i++)
         {
-            inputs[i].keyActive = Input.GetKey(inputs[i].triggerKey);
+            bool value = Input.GetKey(inputs[i].triggerKey);
+            inputs[i].keyActive = value;
+            if (value)
+            {
+                inputs[i].TriggerEvent();
+            }
         }
 
         GatherInputAxis();
@@ -35,9 +46,14 @@ public class InputScript : MonoBehaviour
 
     public Vector3 GatherInputAxis()
     {
-        float xInput = Input.GetAxis("Horizontal");
-        float zInput = Input.GetAxis("Vertical");
+        float xInput = Input.GetAxisRaw("Horizontal");
+        float zInput = Input.GetAxisRaw("Vertical");
         Vector3 direction = transform.forward * zInput + transform.right * xInput;
         return direction;
+    }
+
+    public void Register(Action method, int index)
+    {
+        inputs[index].eventTrigger += method;
     }
 }

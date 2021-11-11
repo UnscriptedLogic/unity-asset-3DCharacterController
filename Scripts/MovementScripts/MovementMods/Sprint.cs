@@ -1,7 +1,20 @@
-public class Sprint
+using UnityEngine;
+public class Sprint : MoveModBase
 {
-    public void Trigger(ref float speed)
+    float speed;
+
+    public Sprint(float sprintSpeed)
     {
-        speed *= 2f;
+        speed = sprintSpeed;
+    }
+
+    public override void Trigger()
+    {
+        throw new System.NotImplementedException();
+    }    
+    
+    public override void Trigger(ref float var)
+    {
+        var *= speed;
     }
 }
