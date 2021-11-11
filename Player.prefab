@@ -169,7 +169,7 @@ MonoBehaviour:
   mouseClamp: {x: -90, y: 90}
   rb: {fileID: 355720589}
   cam: {fileID: 1687258585}
-  inputScript: {fileID: 0}
+  inputSc: {fileID: 407973019184382227}
 --- !u!54 &355720589
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -198,7 +198,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2923c750e950b94187bab14713ed157, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputs: []
+  inputs:
+  - keybindName: Sprint
+    triggerKey: 304
+    keyActive: 0
 --- !u!1 &7862974456463881187
 GameObject:
   m_ObjectHideFlags: 0

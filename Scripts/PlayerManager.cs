@@ -15,7 +15,9 @@ public class PlayerManager : MonoBehaviour
     [Header("Components")]
     public Rigidbody rb;
     public Transform cam;
-    public InputScript inputScript;
+    public InputScript inputSc;
+
+    MovementScript moveSc;
 
     float xRotation = 0;
 
@@ -23,12 +25,14 @@ public class PlayerManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        moveSc = new SprintMovementScript(inputSc, 0);
     }
 
     private void Update()
     {
-        RotateCamera(inputScript.GatherMouseAxis(mouseSens));
-        MoveCharacter(speed, inputScript.GatherInputAxis(), rb);
+        RotateCamera(inputSc.GatherMouseAxis(mouseSens));
+        moveSc.MoveCharacter(transform, speed, inputSc.GatherInputAxis().normalized, rb);
     }
 
     private void RotateCamera(Vector2 mouseDirection)
@@ -39,15 +43,4 @@ public class PlayerManager : MonoBehaviour
         cam.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * mouseDirection.x);
     }
-
-    public void MoveCharacter(float speed, Vector3 direction, Rigidbody rb)
-    {
-        if (inputScript.inputs[0].keyActive)
-        {
-            speed *= 2f;
-        }
-
-        rb.MovePosition(transform.position + (direction * speed * Time.deltaTime));
-    }
-
 }
