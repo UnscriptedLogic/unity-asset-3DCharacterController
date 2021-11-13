@@ -8,11 +8,6 @@ public class PlayerMovement : MonoBehaviour
     public float movementSpeed;
     public float jumpHeight;
 
-    [Space]
-    public float crouchHeight;
-    public float crouchSpeedController;
-    public float crouchJumpController;
-
     public float gravity = -20f;
 
     [HideInInspector] public float initalHeight;
@@ -20,8 +15,6 @@ public class PlayerMovement : MonoBehaviour
     float jump;
 
     Vector3 velocity;
-
-    bool isCrouching;
 
     PlayerController pController;
     PlayerInput pInput;
@@ -41,21 +34,20 @@ public class PlayerMovement : MonoBehaviour
         pInput.RegisterKeyBind(Jump, "Jump", KeyCode.Space, TriggerType.GetKey);
     }
 
-    private void FixedUpdate()
+    public void Update()
     {
         DoMovementType();
     }
 
     public void DoMovementType()
     {
-        if (pController.movementState != MovementState.Normal)
+        for (int i = 0; i < movementTypes.Count; i++)
         {
-            for (int i = 0; i < movementTypes.Count; i++)
+            if (movementTypes[i].GetState() == pController.movementState)
             {
-                if (movementTypes[i].GetState() == pController.movementState)
-                {
-                    movementTypes[i].Move();
-                }
+                movementTypes[i].Move();
+                Debug.Log("Updating: " + movementTypes[i]);
+
             }
         }
 
@@ -90,6 +82,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void AddToMovementList(MovementTypeBase movementType)
+    {
+        movementTypes.Add(movementType);
+    }
+
     //Setters
     public void SetSpeed(float speed) { moveSpeed = speed; }
     public void SetJump(float height) { jump = height; }
@@ -104,4 +101,11 @@ public class PlayerMovement : MonoBehaviour
     public void ResetSpeed() { moveSpeed = movementSpeed; }
     public void ResetJump() { jump = jumpHeight; }
     public void ResetControllerHeight() { charController.height = initalHeight; }
+
+    public void ResetAllBasicMovement()
+    {
+        ResetSpeed();
+        ResetJump();
+        ResetControllerHeight();
+    }
 }

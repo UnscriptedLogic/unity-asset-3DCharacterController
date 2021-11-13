@@ -17,6 +17,8 @@ public class MovementTypeBase : MonoBehaviour
         pController = GetComponent<PlayerController>();
         pMovement = GetComponent<PlayerMovement>();
         charController = GetComponent<CharacterController>();
+
+        pMovement.AddToMovementList(this);
     }
 
     public virtual void Move()
