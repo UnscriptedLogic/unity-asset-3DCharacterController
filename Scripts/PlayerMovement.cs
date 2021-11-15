@@ -8,20 +8,15 @@ public class PlayerMovement : MonoBehaviour
     public float movementSpeed;
     public float jumpHeight;
 
-    [Space]
-    public float crouchHeight;
-    public float crouchSpeedController;
-    public float crouchJumpController;
-
+    [Space(20)]
     public float gravity = -20f;
+    public float speedToJumpMul = 20f;
 
     [HideInInspector] public float initalHeight;
     float moveSpeed;
     float jump;
 
     Vector3 velocity;
-
-    bool isCrouching;
 
     PlayerController pController;
     PlayerInput pInput;
@@ -38,24 +33,21 @@ public class PlayerMovement : MonoBehaviour
         moveSpeed = movementSpeed;
         jump = jumpHeight;
 
-        pInput.RegisterKeyBind(Jump, "Jump", KeyCode.Space, TriggerType.GetKey);
+        pInput.RegisterKeyBind(Jump, "Jump", KeyCode.Space, TriggerType.GetKeyDown);
     }
 
-    private void FixedUpdate()
+    public void Update()
     {
         DoMovementType();
     }
 
     public void DoMovementType()
     {
-        if (pController.movementState != MovementState.Normal)
+        for (int i = 0; i < movementTypes.Count; i++)
         {
-            for (int i = 0; i < movementTypes.Count; i++)
+            if (movementTypes[i].GetState() == pController.movementState)
             {
-                if (movementTypes[i].GetState() == pController.movementState)
-                {
-                    movementTypes[i].Move();
-                }
+                movementTypes[i].Move();
             }
         }
 
@@ -64,6 +56,11 @@ public class PlayerMovement : MonoBehaviour
         if (pInput.isGrounded() && velocity.y <= 0)
         {
             velocity.y = -2f;
+
+            if (pController.GetState() == MovementState.Jumping)
+            {
+                pController.StateEnded(MovementState.Jumping);
+            }
         }
 
         velocity.y += gravity * Time.deltaTime;
@@ -86,8 +83,17 @@ public class PlayerMovement : MonoBehaviour
     {
         if (pInput.isGrounded())
         {
+            jump = jumpHeight * ((moveSpeed / 100f) * speedToJumpMul);
+            jump = Mathf.Clamp(jump, 0f, jumpHeight * 2f);
+
             velocity.y = Mathf.Sqrt(jump * -2f * gravity);
+            pController.SetState(MovementState.Jumping);
         }
+    }
+
+    public void AddToMovementList(MovementTypeBase movementType)
+    {
+        movementTypes.Add(movementType);
     }
 
     //Setters
@@ -100,8 +106,25 @@ public class PlayerMovement : MonoBehaviour
     public float GetJump() { return jump; }
     public float GetControllerHeight() { return charController.height; }
 
+    public CharacterController GetCharacterController() { return charController; }
+    public float GetMasterSpeed() { return movementSpeed; }
+    public float GetMasterJump() { return jumpHeight; }
+
     //Resetters
     public void ResetSpeed() { moveSpeed = movementSpeed; }
     public void ResetJump() { jump = jumpHeight; }
     public void ResetControllerHeight() { charController.height = initalHeight; }
+    public void ResetAllBasicMovement()
+    {
+        ResetSpeed();
+        ResetJump();
+        ResetControllerHeight();
+    }
+    public void ResetAllMiscMovement()
+    {
+        for (int i = 0; i < movementTypes.Count; i++)
+        {
+            movementTypes[i].ResetMovement();
+        }
+    }
 }
