@@ -7,59 +7,58 @@ public class SprintMovement : MovementTypeBase
 {
     public float speedMultiplier = 2f;
     public float jumpMultiplier = 1.3f;
-    public KeyCode sprintKey = KeyCode.LeftShift;
 
-    bool isCalled;
-    bool isAwaitingLanding;
+    public float transition = 20f;
+
+    float originalSpeed;
+    float currSpeed;
+
+    bool isSprinting;
 
     protected override void Start()
     {
         base.Start();
 
-        pInput.RegisterKeyBind(Sprint, "Sprint", sprintKey, TriggerType.GetKey);
-        pInput.RegisterKeyBind(ResetSprint, "Stop Sprinting", sprintKey, TriggerType.GetKeyUp);
+        inputSc.RegisterKeyBind(Sprint, "Sprint", triggerKey, TriggerType.GetKeyDown);
+        inputSc.RegisterKeyBind(ResetSprint, "Stop Sprinting", triggerKey, TriggerType.GetKeyUp);
     }
 
     public void Update()
     {
-        if (isAwaitingLanding)
+
+    }
+
+    public override void Move()
+    {
+        if (isGrounded())
         {
-            if (pInput.isGrounded())
+            if (isSprinting && inputSc.GetVelocity() > 0.1f)
             {
-                pMovement.SetSpeed(pMovement.GetSpeed() / speedMultiplier);
-                pMovement.SetJump(pMovement.GetJump() / jumpMultiplier);
-                isCalled = false;
-                isAwaitingLanding = false;
+                currSpeed += transition * Time.deltaTime;
+                currSpeed = Mathf.Clamp(currSpeed, 0f, moveSc.GetMasterSpeed() * speedMultiplier);
+                moveSc.SetSpeed(currSpeed);
+            } else
+            {
+                moveSc.SetSpeed(originalSpeed);
+                moveSc.SetJump(moveSc.GetJump() / jumpMultiplier);
+
+                controllerSc.StateEnded(movementState);
             }
         }
     }
 
     public void Sprint()
     {
-        if (pInput.isGrounded() && !isCalled)
-        {
-            pMovement.SetSpeed(pMovement.GetSpeed() * speedMultiplier);
-            pMovement.SetJump(pMovement.GetJump() * jumpMultiplier);
+        originalSpeed = moveSc.GetSpeed();
+        currSpeed = originalSpeed;
+        controllerSc.SetState(movementState);
+        moveSc.SetJump(moveSc.GetMasterJump() * jumpMultiplier);
 
-            pController.SetState(movementState);
-
-            isCalled = true;
-        }
+        isSprinting = true;
     }
 
     public void ResetSprint()
     {
-        if (pInput.isGrounded())
-        {
-            pMovement.SetSpeed(pMovement.GetSpeed() / speedMultiplier);
-            pMovement.SetJump(pMovement.GetJump() / jumpMultiplier);
-
-            pController.SetState(MovementState.Normal);
-
-            isCalled = false;
-        } else
-        {
-            isAwaitingLanding = true;
-        }
+        isSprinting = false;
     }
 }

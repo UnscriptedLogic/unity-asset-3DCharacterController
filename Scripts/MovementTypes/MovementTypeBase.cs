@@ -6,19 +6,21 @@ public class MovementTypeBase : MonoBehaviour
 {
     public MovementState movementState;
 
-    protected PlayerInput pInput;
-    protected PlayerController pController;
-    protected PlayerMovement pMovement;
+    public KeyCode triggerKey;
+
+    protected PlayerInput inputSc;
+    protected PlayerController controllerSc;
+    protected PlayerMovement moveSc;
     protected CharacterController charController;
 
     protected virtual void Start()
     {
-        pInput = GetComponent<PlayerInput>();
-        pController = GetComponent<PlayerController>();
-        pMovement = GetComponent<PlayerMovement>();
+        inputSc = GetComponent<PlayerInput>();
+        controllerSc = GetComponent<PlayerController>();
+        moveSc = GetComponent<PlayerMovement>();
         charController = GetComponent<CharacterController>();
 
-        pMovement.AddToMovementList(this);
+        moveSc.AddToMovementList(this);
     }
 
     public virtual void Move()
@@ -27,4 +29,19 @@ public class MovementTypeBase : MonoBehaviour
     }
 
     public MovementState GetState() { return movementState; }
+
+    public bool isGrounded()
+    {
+        return inputSc.isGrounded();
+    }
+
+    public float GetVelocity()
+    {
+        return inputSc.GetVelocity();
+    }
+
+    public virtual void ResetMovement()
+    {
+
+    }
 }

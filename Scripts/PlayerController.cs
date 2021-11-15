@@ -5,55 +5,68 @@ using UnityEngine;
 public enum MovementState
 {
     Idle,
-    Normal,
-    Sliding,
+    Moving,
+    Jumping,
     Crouch,
+    Sliding,
     Sprinting
 }
 
 public class PlayerController : MonoBehaviour
 {
+    Stack<MovementState> movementStack = new Stack<MovementState>();
+    List<MovementState> toRemove = new List<MovementState>();
+
     public MovementState movementState;
 
     [Header("Components")]
     public PlayerInput playerInput;
     public PlayerMovement playerMovement;
+    public Rigidbody rb;
 
-    private void Update()
+    private void Start()
     {
-        //if (playerInput.GetDirectionalInput().magnitude <= 0)
-        //{
-        //    movementState = MovementState.Idle;
-        //}
+        movementStack.Push(MovementState.Idle);
+        movementStack.Push(MovementState.Moving);
     }
 
-    public void UpdateState()
+    private void Update()
     {
         switch (movementState)
         {
             case MovementState.Idle:
                 playerMovement.ResetAllBasicMovement();
                 break;
-
-            case MovementState.Normal:
+            case MovementState.Moving:
                 playerMovement.ResetAllBasicMovement();
-
                 break;
-
+            case MovementState.Jumping:
+                break;
             case MovementState.Sliding:
-
-                break;    
-                
+                break;
             case MovementState.Crouch:
-                break;  
-                
+                break;
             case MovementState.Sprinting:
                 break;
-
             default:
-                movementState = MovementState.Normal;
                 break;
         }
+
+        if (toRemove.Count > 0)
+        {
+            int last = toRemove.Count - 1;
+            if (toRemove[last] == movementState)
+            {
+                StateEnded(movementState);
+                toRemove.RemoveAt(last);
+            }
+
+        }
+    }
+
+    public Stack<MovementState> GetMovementStack()
+    {
+        return movementStack;
     }
 
     public MovementState GetState()
@@ -65,6 +78,21 @@ public class PlayerController : MonoBehaviour
     {
         movementState = state;
 
-        UpdateState();
+        movementStack.Push(state);
+    }
+
+    public void StateEnded(MovementState state)
+    {
+        if (movementStack.Peek() == state)
+        {
+            movementStack.Pop();
+            movementState = movementStack.Peek();
+        } else
+        {
+            if (!toRemove.Contains(state))
+            {
+                toRemove.Insert(0, state);
+            }
+        }
     }
 }

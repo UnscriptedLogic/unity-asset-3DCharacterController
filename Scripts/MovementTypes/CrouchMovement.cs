@@ -9,61 +9,76 @@ public class CrouchMovement : MovementTypeBase
     public float crouchHeight = 1f;
     public float crouchJumpController = 3f;
     public float crouchSpeedController = 5f;
-    [Space]
-    public KeyCode crouchKey = KeyCode.C;
 
+    [Space]
+    public float transitionTime;
+    public float checkValidDistance = 1.15f;
+
+    float originalSpeed;
     bool isCrouching;
-    bool alreadyCalled;
 
     protected override void Start()
     {
         base.Start();
 
-        pInput.RegisterKeyBind(Crouch, "Crouch", crouchKey, TriggerType.GetKey);
-        pInput.RegisterKeyBind(UnCrouch, "UnCrouch", crouchKey, TriggerType.GetKeyUp);
+        inputSc.RegisterKeyBind(Crouch, "Crouch", triggerKey, TriggerType.GetKeyDown);
+        inputSc.RegisterKeyBind(UnCrouch, "UnCrouch", triggerKey, TriggerType.GetKeyUp);
     }
 
-    public void Update()
+    private void Update()
     {
+        
+    }
 
+    public override void Move()
+    {
+        if (isGrounded())
+        {
+            if (isCrouching)
+            {
+                moveSc.SetSpeed(Mathf.Lerp(moveSc.GetSpeed(), moveSc.GetMasterSpeed() / crouchSpeedController, transitionTime * Time.deltaTime));
+            }
+            else
+            {
+                ResetCrouch();
+            }
+        }
     }
 
     public void Crouch()
     {
         if (!isCrouching)
         {
+            originalSpeed = moveSc.GetSpeed();
             charController.height = crouchHeight;
-
+            
+            moveSc.SetJump(moveSc.GetJump() / crouchJumpController);
+            controllerSc.SetState(movementState);
             isCrouching = true;
-            pController.SetState(movementState);
-        }
-
-        if (isCrouching && pInput.isGrounded() && !alreadyCalled)
-        {
-            pMovement.SetSpeed(pMovement.GetSpeed() / crouchSpeedController);
-            pMovement.SetJump(pMovement.GetJump() / crouchJumpController);
-
-            alreadyCalled = true;
         }
     }
 
     public void UnCrouch()
     {
-        if (isCrouching)
+        isCrouching = false;
+    }
+
+    public void ResetCrouch()
+    {
+        //Checks for a valid height to uncrouch
+        if (!Physics.Raycast(transform.position, transform.up, out RaycastHit hitInfo, checkValidDistance))
         {
-            charController.height = pMovement.initalHeight;
-            
-            if (pInput.isGrounded())
-            {
-                pMovement.SetJump(pMovement.GetJump() * crouchJumpController);
-                pMovement.SetSpeed(pMovement.GetSpeed() * crouchSpeedController);
+            moveSc.ResetControllerHeight();
 
-                isCrouching = false;
-                pController.SetState(MovementState.Normal);
+            moveSc.SetJump(moveSc.GetJump() * crouchJumpController);
+            moveSc.SetSpeed(originalSpeed);
 
-                alreadyCalled = false;
-
-            }
+            controllerSc.StateEnded(movementState);
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawRay(transform.position, Vector3.up * checkValidDistance);
     }
 }

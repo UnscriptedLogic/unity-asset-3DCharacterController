@@ -41,6 +41,16 @@ public class PlayerInput : MonoBehaviour
 
     public List<Keybind> keybinds = new List<Keybind>();
 
+    Vector3 prevPosition;
+
+    float displacement;
+    float velocity;
+
+    private void Start()
+    {
+        prevPosition = transform.position;
+    }
+
     public Vector3 GetDirectionalInput()
     {
 
@@ -56,12 +66,27 @@ public class PlayerInput : MonoBehaviour
 
         float mouseX = Input.GetAxis("Mouse X") * mouseSens.x * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSens.y * Time.deltaTime;
-        Vector2 mouseDir = new Vector2(mouseX, mouseY);
+        Vector3 mouseDir = new Vector2(mouseX, mouseY);
 
         return mouseDir;
     }
 
     private void Update()
+    {
+        KeyBindMethod();
+        CalculateVelocity();
+
+        prevPosition = transform.position;
+
+    }
+
+    public void CalculateVelocity()
+    {
+        displacement = Vector3.Distance(transform.position, prevPosition);
+        velocity = displacement / Time.deltaTime;
+    }
+
+    private void KeyBindMethod()
     {
         foreach (Keybind keybind in keybinds)
         {
@@ -108,6 +133,8 @@ public class PlayerInput : MonoBehaviour
     {
         keybinds.Add(new Keybind(bindName, keyCode, triggerType, function));
     }
+
+    public float GetVelocity() { return velocity; }
 
     private void OnDrawGizmos()
     {
