@@ -61,4 +61,10 @@ public class SprintMovement : MovementTypeBase
     {
         isSprinting = false;
     }
+
+    public override void ResetMovement()
+    {
+        currSpeed = moveSc.GetSpeed();
+        originalSpeed = moveSc.GetSpeed();
+    }
 }

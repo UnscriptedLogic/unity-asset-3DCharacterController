@@ -95,4 +95,10 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    public void LockCursor(bool value = true)
+    {
+        Cursor.lockState = value ? CursorLockMode.Locked : CursorLockMode.None;
+        Cursor.visible = !value;
+    }
 }

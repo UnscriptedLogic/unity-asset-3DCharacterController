@@ -82,7 +82,7 @@ public class SlidingMovement : MovementTypeBase
     {
         controllerSc.StateEnded(movementState);
 
-        moveSc.ResetAllBasicMovement();
+        moveSc.ResetAllMiscMovement();
         isSliding = false;
     }
     

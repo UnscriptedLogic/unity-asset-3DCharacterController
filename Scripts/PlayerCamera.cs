@@ -12,13 +12,14 @@ public class PlayerCamera : MonoBehaviour
     float xRotation = 0f;
 
     PlayerInput pInput;
+    PlayerController pController;
 
     private void Start()
     {
         pInput = GetComponent<PlayerInput>();
+        pController = GetComponent<PlayerController>();
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        pController.LockCursor();
     }
 
     private void Update()

@@ -1,5 +1,65 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &265493444712788404
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 302396194259244640}
+  m_Layer: 0
+  m_Name: HoldPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &302396194259244640
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265493444712788404}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 2.75}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7170982591482276057}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1972062153404618956
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 735005402822627464}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &735005402822627464
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972062153404618956}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7170982590193079587}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7170982590193079582
 GameObject:
   m_ObjectHideFlags: 0
@@ -16,6 +76,7 @@ GameObject:
   - component: {fileID: 498701753}
   - component: {fileID: 498701754}
   - component: {fileID: 5956593683682881272}
+  - component: {fileID: 1585592917123997789}
   - component: {fileID: 7170982590193079586}
   - component: {fileID: 8028712054236131505}
   m_Layer: 0
@@ -38,6 +99,7 @@ Transform:
   m_Children:
   - {fileID: 7170982591482276057}
   - {fileID: 7170982591178440928}
+  - {fileID: 735005402822627464}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -103,8 +165,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 4
-  jumpHeight: 6
-  gravity: -25
+  jumpHeight: 8
+  gravity: -20
   speedToJumpMul: 3
   initalHeight: 0
 --- !u!114 &498701753
@@ -157,12 +219,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementState: 4
   triggerKey: 99
-  maxSlideVelMultiplier: 1.75
+  maxSlideVelMultiplier: 1.6
   maxJumpMultiplier: 0.5
   speedLerpTime: 12
   groundResistance: 3
-  velocityToSlide: 8
+  velocityToSlide: 9
   endSlideVelocity: 1
+--- !u!114 &1585592917123997789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7170982590193079582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f0ec75a1f6d7e142bb0af191dd0e11f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 4
+  radius: 1
+  force: 50
+  breakDistance: 5
+  activate: 101
+  pickUpLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  holdPos: {fileID: 302396194259244640}
+  raycastFrom: {fileID: 7170982591482276057}
+  showDebugLines: 1
 --- !u!143 &7170982590193079586
 CharacterController:
   m_ObjectHideFlags: 0
@@ -175,7 +260,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 2
-  m_Radius: 0.5
+  m_Radius: 0.4
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.0001
@@ -307,7 +392,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 302396194259244640}
   m_Father: {fileID: 7170982590193079587}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -384,7 +470,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0

@@ -119,11 +119,6 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-    public bool isGrounded()
-    {
-        return Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitInfo, controller.height * groundCheckOffset);
-    }
-
     //Registers a function to a keybind
     public void RegisterKeyBind(Action function, 
                                 string bindName = "Unnamed Keybind", 
@@ -134,7 +129,57 @@ public class PlayerInput : MonoBehaviour
         keybinds.Add(new Keybind(bindName, keyCode, triggerType, function));
     }
 
+    public bool isGrounded()
+    {
+        return Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitInfo, controller.height * groundCheckOffset);
+    }
+
+    public bool isGrounded(out RaycastHit hit)
+    {
+        bool value = Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitInfo, controller.height * groundCheckOffset);
+        hit = hitInfo;
+        return value;
+    }
     public float GetVelocity() { return velocity; }
+
+    #region Relative Raycasting
+    public GameObject RaycastForward(float distance = Mathf.Infinity)
+    {
+        RaycastHit hitInfo;
+        Ray ray = new Ray(transform.position, transform.forward);
+        Physics.Raycast(ray, out hitInfo, distance);
+
+        return hitInfo.collider.gameObject;
+    }
+
+    public GameObject RaycastForward(LayerMask layer, float distance = Mathf.Infinity)
+    {
+        RaycastHit hitInfo;
+        Ray ray = new Ray(transform.position, transform.forward);
+        Physics.Raycast(ray, out hitInfo, distance, layer);
+
+        return hitInfo.collider.gameObject;
+    }
+
+    public GameObject RaycastForward(Vector3 origin, Vector3 direction, float distance = Mathf.Infinity)
+    {
+        RaycastHit hitInfo;
+        Ray ray = new Ray(origin, direction);
+        Physics.Raycast(ray, out hitInfo, distance);
+
+        return hitInfo.collider.gameObject;
+    }
+
+    public GameObject RaycastForward(Vector3 origin, Vector3 direction, LayerMask layerMask, float distance = Mathf.Infinity)
+    {
+        RaycastHit hitInfo;
+        Ray ray = new Ray(origin, direction);
+        Physics.Raycast(ray, out hitInfo, distance, layerMask);
+
+        return hitInfo.collider.gameObject;
+    }
+
+    #endregion
 
     private void OnDrawGizmos()
     {
