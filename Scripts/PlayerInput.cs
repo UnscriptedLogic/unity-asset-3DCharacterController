@@ -64,8 +64,8 @@ public class PlayerInput : MonoBehaviour
     public Vector2 GetMouseInput(Vector2 mouseSens)
     {
 
-        float mouseX = Input.GetAxis("Mouse X") * mouseSens.x * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSens.y * Time.deltaTime;
+        float mouseX = Input.GetAxisRaw("Mouse X") * mouseSens.x * Time.deltaTime;
+        float mouseY = Input.GetAxisRaw("Mouse Y") * mouseSens.y * Time.deltaTime;
         Vector3 mouseDir = new Vector2(mouseX, mouseY);
 
         return mouseDir;

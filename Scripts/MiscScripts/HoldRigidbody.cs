@@ -39,14 +39,14 @@ public class HoldRigidbody : MonoBehaviour
     {
         if (Physics.SphereCast(raycastFrom.position, radius, raycastFrom.forward, out RaycastHit hit, range, pickUpLayer))
         {
-            currentlyHeld = hit.collider.transform.root.gameObject;
+            currentlyHeld = hit.collider.transform.gameObject;
             heldRb = currentlyHeld.GetComponent<Rigidbody>();
 
             heldRb.useGravity = false;
         }
     }
 
-    public void FixedUpdate()
+    public void Update()
     {
         if (currentlyHeld != null)
         {

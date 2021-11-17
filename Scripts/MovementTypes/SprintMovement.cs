@@ -23,17 +23,14 @@ public class SprintMovement : MovementTypeBase
         inputSc.RegisterKeyBind(ResetSprint, "Stop Sprinting", triggerKey, TriggerType.GetKeyUp);
     }
 
-    public void Update()
-    {
-
-    }
-
     public override void Move()
     {
         if (isGrounded())
         {
-            if (isSprinting && inputSc.GetVelocity() > 0.1f)
+            if (isSprinting && inputSc.GetVelocity() > 0.05f)
             {
+                Debug.Log(currSpeed);
+
                 currSpeed += transition * Time.deltaTime;
                 currSpeed = Mathf.Clamp(currSpeed, 0f, moveSc.GetMasterSpeed() * speedMultiplier);
                 moveSc.SetSpeed(currSpeed);
