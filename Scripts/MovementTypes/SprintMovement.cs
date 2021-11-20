@@ -29,15 +29,12 @@ public class SprintMovement : MovementTypeBase
         {
             if (isSprinting && inputSc.GetVelocity() > 0.05f)
             {
-                Debug.Log(currSpeed);
-
                 currSpeed += transition * Time.deltaTime;
                 currSpeed = Mathf.Clamp(currSpeed, 0f, moveSc.GetMasterSpeed() * speedMultiplier);
                 moveSc.SetSpeed(currSpeed);
             } else
             {
                 moveSc.SetSpeed(originalSpeed);
-                moveSc.SetJump(moveSc.GetJump() / jumpMultiplier);
 
                 controllerSc.StateEnded(movementState);
             }
@@ -47,9 +44,8 @@ public class SprintMovement : MovementTypeBase
     public void Sprint()
     {
         originalSpeed = moveSc.GetSpeed();
-        currSpeed = originalSpeed;
+        currSpeed = moveSc.GetSpeed();
         controllerSc.SetState(movementState);
-        moveSc.SetJump(moveSc.GetMasterJump() * jumpMultiplier);
 
         isSprinting = true;
     }

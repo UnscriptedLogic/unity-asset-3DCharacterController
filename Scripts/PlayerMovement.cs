@@ -13,8 +13,12 @@ public class PlayerMovement : MonoBehaviour
     public float speedToJumpMul = 20f;
 
     [HideInInspector] public float initalHeight;
+
+    float baseJump;
+
     float moveSpeed;
     float jump;
+    float jumpAccelerator;
 
     Vector3 velocity;
 
@@ -33,11 +37,17 @@ public class PlayerMovement : MonoBehaviour
         moveSpeed = movementSpeed;
         jump = jumpHeight;
 
+        baseJump = jump;
+
         pInput.RegisterKeyBind(Jump, "Jump", KeyCode.Space, TriggerType.GetKeyDown);
     }
 
     public void Update()
     {
+        jumpAccelerator = (moveSpeed / 100f) * speedToJumpMul;
+        jump = baseJump + jumpAccelerator;
+        jump = Mathf.Clamp(jump, 0f, jumpHeight * 2f);
+
         DoMovementType();
     }
 
@@ -83,9 +93,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (pInput.isGrounded())
         {
-            jump = jumpHeight * ((moveSpeed / 100f) * speedToJumpMul);
-            jump = Mathf.Clamp(jump, 0f, jumpHeight * 2f);
-
             velocity.y = Mathf.Sqrt(jump * -2f * gravity);
             pController.SetState(MovementState.Jumping);
         }
@@ -104,6 +111,8 @@ public class PlayerMovement : MonoBehaviour
     //Getters
     public float GetSpeed() { return moveSpeed; }
     public float GetJump() { return jump; }
+    public float GetJumpAccelerator() { return jumpAccelerator; }
+    public float GetBaseJump() { return baseJump; }
     public float GetControllerHeight() { return charController.height; }
 
     public CharacterController GetCharacterController() { return charController; }
