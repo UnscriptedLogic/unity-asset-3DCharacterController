@@ -7,16 +7,23 @@ public class PlayerMovement : MonoBehaviour
     [Header("Attributes")]
     public float movementSpeed;
     public float jumpHeight;
+    public float transitionTime;
 
     [Space(20)]
     public float gravity = -20f;
     public float speedToJumpMul = 20f;
 
     [HideInInspector] public float initalHeight;
-    float moveSpeed;
+
+    float baseJump;
+
+    float currentMoveSpeed;
     float jump;
+    float jumpAccelerator;
 
     Vector3 velocity;
+    Vector3 inputVector;
+    Vector3 movementVector;
 
     PlayerController pController;
     PlayerInput pInput;
@@ -30,14 +37,21 @@ public class PlayerMovement : MonoBehaviour
         charController = GetComponent<CharacterController>();
 
         initalHeight = charController.height;
-        moveSpeed = movementSpeed;
+        currentMoveSpeed = movementSpeed;
         jump = jumpHeight;
+
+        baseJump = jump;
 
         pInput.RegisterKeyBind(Jump, "Jump", KeyCode.Space, TriggerType.GetKeyDown);
     }
 
     public void Update()
     {
+        jumpAccelerator = (pInput.GetVelocity() / 100f) * speedToJumpMul;
+        jump = baseJump + jumpAccelerator;
+        jump = Mathf.Clamp(jump, 0f, jumpHeight * 2f);
+
+
         DoMovementType();
     }
 
@@ -51,7 +65,8 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        charController.Move(pInput.GetDirectionalInput() * moveSpeed * Time.deltaTime);
+        inputVector = pInput.GetDirectionalInput() * currentMoveSpeed * Time.deltaTime;
+        charController.Move(inputVector);
 
         if (pInput.isGrounded() && velocity.y <= 0)
         {
@@ -80,12 +95,10 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public void Jump()
+
     {
         if (pInput.isGrounded())
         {
-            jump = jumpHeight * ((moveSpeed / 100f) * speedToJumpMul);
-            jump = Mathf.Clamp(jump, 0f, jumpHeight * 2f);
-
             velocity.y = Mathf.Sqrt(jump * -2f * gravity);
             pController.SetState(MovementState.Jumping);
         }
@@ -97,13 +110,15 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //Setters
-    public void SetSpeed(float speed) { moveSpeed = speed; }
+    public void SetSpeed(float speed) { currentMoveSpeed = speed; }
     public void SetJump(float height) { jump = height; }
     public void SetControllerHeight(float height) { charController.height = height; }
 
     //Getters
-    public float GetSpeed() { return moveSpeed; }
+    public float GetSpeed() { return currentMoveSpeed; }
     public float GetJump() { return jump; }
+    public float GetJumpAccelerator() { return jumpAccelerator; }
+    public float GetBaseJump() { return baseJump; }
     public float GetControllerHeight() { return charController.height; }
 
     public CharacterController GetCharacterController() { return charController; }
@@ -111,7 +126,7 @@ public class PlayerMovement : MonoBehaviour
     public float GetMasterJump() { return jumpHeight; }
 
     //Resetters
-    public void ResetSpeed() { moveSpeed = movementSpeed; }
+    public void ResetSpeed() { currentMoveSpeed = movementSpeed; }
     public void ResetJump() { jump = jumpHeight; }
     public void ResetControllerHeight() { charController.height = initalHeight; }
     public void ResetAllBasicMovement()

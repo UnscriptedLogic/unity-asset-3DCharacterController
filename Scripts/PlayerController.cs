@@ -24,10 +24,15 @@ public class PlayerController : MonoBehaviour
     public PlayerMovement playerMovement;
     public Rigidbody rb;
 
+    bool cursorLocked;
+
     private void Start()
     {
         movementStack.Push(MovementState.Idle);
         movementStack.Push(MovementState.Moving);
+
+        LockCursor();
+        playerInput.RegisterKeyBind(LockCursor, "Toggle Lock Cursor", KeyCode.Escape, TriggerType.GetKeyDown);
     }
 
     private void Update()
@@ -96,9 +101,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void LockCursor(bool value = true)
+    public void LockCursor()
     {
-        Cursor.lockState = value ? CursorLockMode.Locked : CursorLockMode.None;
-        Cursor.visible = !value;
+        cursorLocked = !cursorLocked;
+        Cursor.lockState = cursorLocked ? CursorLockMode.Locked : CursorLockMode.None;
+        Cursor.visible = !cursorLocked;
     }
 }

@@ -19,7 +19,6 @@ public class PlayerCamera : MonoBehaviour
         pInput = GetComponent<PlayerInput>();
         pController = GetComponent<PlayerController>();
 
-        pController.LockCursor();
     }
 
     private void Update()

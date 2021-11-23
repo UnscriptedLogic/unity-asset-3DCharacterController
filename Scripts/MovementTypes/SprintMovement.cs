@@ -23,24 +23,19 @@ public class SprintMovement : MovementTypeBase
         inputSc.RegisterKeyBind(ResetSprint, "Stop Sprinting", triggerKey, TriggerType.GetKeyUp);
     }
 
-    public void Update()
-    {
-
-    }
-
     public override void Move()
     {
         if (isGrounded())
         {
-            if (isSprinting && inputSc.GetVelocity() > 0.1f)
+            if (isSprinting && inputSc.GetVelocity() > 0.05f)
             {
-                currSpeed += transition * Time.deltaTime;
-                currSpeed = Mathf.Clamp(currSpeed, 0f, moveSc.GetMasterSpeed() * speedMultiplier);
-                moveSc.SetSpeed(currSpeed);
+                //currSpeed += transition * Time.deltaTime;
+                //currSpeed = Mathf.Clamp(currSpeed, 0f, moveSc.GetMasterSpeed() * speedMultiplier);
+                //moveSc.SetSpeed(currSpeed);
+                moveSc.SetSpeed(moveSc.GetMasterSpeed() * speedMultiplier);
             } else
             {
                 moveSc.SetSpeed(originalSpeed);
-                moveSc.SetJump(moveSc.GetJump() / jumpMultiplier);
 
                 controllerSc.StateEnded(movementState);
             }
@@ -50,9 +45,8 @@ public class SprintMovement : MovementTypeBase
     public void Sprint()
     {
         originalSpeed = moveSc.GetSpeed();
-        currSpeed = originalSpeed;
+        currSpeed = moveSc.GetSpeed();
         controllerSc.SetState(movementState);
-        moveSc.SetJump(moveSc.GetMasterJump() * jumpMultiplier);
 
         isSprinting = true;
     }
