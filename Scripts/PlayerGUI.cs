@@ -31,7 +31,9 @@ public class PlayerGUI : MonoBehaviour
                 "Speed: " + pController.playerMovement.GetSpeed().ToString() +
                 "\nJump: " + pController.playerMovement.GetJump().ToString() +
                 "\nMovement State: " + pController.movementState.ToString() +
-                "\nisGrounded: " + pController.playerInput.isGrounded().ToString();
+                "\nisGrounded: " + pController.playerInput.isGrounded().ToString() + 
+                "\nDirectional Vector: " + pController.playerInput.GetDirectionalInput().ToString() + 
+                "\nVelocity: " + pController.playerInput.GetVelocity();
         }
     }
 

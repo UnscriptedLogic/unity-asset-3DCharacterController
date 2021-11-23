@@ -79,6 +79,7 @@ GameObject:
   - component: {fileID: 1585592917123997789}
   - component: {fileID: 7170982590193079586}
   - component: {fileID: 8028712054236131505}
+  - component: {fileID: 1346442449}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -165,9 +166,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 4
-  jumpHeight: 8
+  jumpHeight: 2
+  transitionTime: 0.25
   gravity: -20
-  speedToJumpMul: 3
+  speedToJumpMul: 15
   initalHeight: 0
 --- !u!114 &498701753
 MonoBehaviour:
@@ -183,8 +185,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementState: 5
   triggerKey: 304
-  speedMultiplier: 3
-  jumpMultiplier: 2
+  speedMultiplier: 2
+  jumpMultiplier: 0
   transition: 10
 --- !u!114 &498701754
 MonoBehaviour:
@@ -220,7 +222,7 @@ MonoBehaviour:
   movementState: 4
   triggerKey: 99
   maxSlideVelMultiplier: 1.6
-  maxJumpMultiplier: 0.5
+  maxJumpMultiplier: 1.25
   speedLerpTime: 12
   groundResistance: 3
   velocityToSlide: 9
@@ -277,11 +279,27 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 2
+  m_CollisionDetection: 3
+--- !u!114 &1346442449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7170982590193079582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33cba14231186be469503d2c9fd53fd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settingsKey: 308
+  settingsPage: {fileID: 0}
+  debugPage: {fileID: 0}
+  debugTxt: {fileID: 0}
 --- !u!1 &7170982591178440927
 GameObject:
   m_ObjectHideFlags: 0
