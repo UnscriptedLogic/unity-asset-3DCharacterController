@@ -41,6 +41,7 @@ public class PlayerInventory : MonoBehaviour
     {
         if (currentItem < playerInventory.inventory.Count)
         {
+
             GameObject droppedItem = Instantiate(playerInventory.inventory[currentItem].GetMyself(), spawnLocation.position, Quaternion.identity);
             playerInventory.RemoveAt(currentItem, 1);
         }
