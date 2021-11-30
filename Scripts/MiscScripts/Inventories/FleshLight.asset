@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 068dc4c03f1a4654dae205b88d937bc9, type: 3}
+  m_Name: FleshLight
+  m_EditorClassIdentifier: 
+  icon: {fileID: 0}
+  desc: A fleshlight for you to use
+  myself: {fileID: 0}

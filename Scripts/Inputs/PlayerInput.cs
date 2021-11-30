@@ -54,6 +54,7 @@ public class PlayerInput : MonoBehaviour
 {
     [Header("Components")]
     public CharacterController controller;
+    public Camera cam;
 
     public List<Keybind> keybinds = new List<Keybind>();
     public List<MouseBind> mouseBinds = new List<MouseBind>();
@@ -162,6 +163,35 @@ public class PlayerInput : MonoBehaviour
     {
         mouseBinds.Add(new MouseBind(bindName, buttonSide, trigger, function));
     }
+
+    public Ray GetCamMouseRay()
+    {
+        return cam.ScreenPointToRay(Input.mousePosition);
+    }
+
+    #region Camera Raycasting
+
+    public GameObject RaycastCamera(float distance = Mathf.Infinity)
+    {
+        if (Physics.Raycast(GetCamMouseRay(), out RaycastHit hit, distance))
+        {
+            return hit.collider.gameObject;
+        }
+
+        return null;
+    }
+
+    public GameObject RaycastCamera(LayerMask layer, float distance = Mathf.Infinity)
+    {
+        if (Physics.Raycast(GetCamMouseRay(), out RaycastHit hit, distance, layer))
+        {
+            return hit.collider.gameObject;
+        }
+
+        return null;
+    }
+
+    #endregion
 
     #region Relative Raycasting
     public GameObject RaycastForward(float distance = Mathf.Infinity)

@@ -79,6 +79,7 @@ GameObject:
   - component: {fileID: 1585592917123997789}
   - component: {fileID: 7170982590193079586}
   - component: {fileID: 8028712054236131505}
+  - component: {fileID: 1347479297}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -132,12 +133,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 7170982590193079586}
+  cam: {fileID: 7170982591482276060}
   keybinds: []
   mouseBinds: []
-  groundCheckOffset: 0.25
+  groundCheckOffset: 0.6
   groundLayer:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 4294967295
 --- !u!114 &7170982590193079588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,7 +245,7 @@ MonoBehaviour:
   radius: 1
   force: 50
   breakDistance: 5
-  activate: 101
+  activate: 102
   pickUpLayer:
     serializedVersion: 2
     m_Bits: 16
@@ -284,6 +286,25 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 3
+--- !u!114 &1347479297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7170982590193079582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14b823ac228210e4c98f157c8bdb5902, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInventory: {fileID: 11400000, guid: 1d9b1c1839b0da541ab10b4bf19e4a66, type: 2}
+  interactKey: 101
+  dropKey: 113
+  equipLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  equipDistance: 5
 --- !u!1 &7170982591178440927
 GameObject:
   m_ObjectHideFlags: 0
