@@ -25,11 +25,6 @@ public class CrouchMovement : MovementTypeBase
         inputSc.RegisterKeyBind(UnCrouch, "UnCrouch", triggerKey, TriggerType.GetKeyUp);
     }
 
-    private void Update()
-    {
-        
-    }
-
     public override void Move()
     {
         if (isGrounded())

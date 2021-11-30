@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     public MovementState movementState;
 
     [Header("Components")]
-    public PlayerInput playerInput;
+    public PlayerInput3D playerInput;
     public PlayerMovement playerMovement;
     public Rigidbody rb;
 

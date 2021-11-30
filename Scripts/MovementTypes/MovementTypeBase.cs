@@ -8,19 +8,20 @@ public class MovementTypeBase : MonoBehaviour
 
     public KeyCode triggerKey;
 
-    protected PlayerInput inputSc;
+    protected PlayerInput3D inputSc;
     protected PlayerController controllerSc;
     protected PlayerMovement moveSc;
     protected CharacterController charController;
 
     protected virtual void Start()
     {
-        inputSc = GetComponent<PlayerInput>();
+        inputSc = GetComponent<PlayerInput3D>();
         controllerSc = GetComponent<PlayerController>();
         moveSc = GetComponent<PlayerMovement>();
         charController = GetComponent<CharacterController>();
 
         moveSc.AddToMovementList(this);
+        inputSc = controllerSc.playerInput;
     }
 
     public virtual void Move()

@@ -69,8 +69,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7170982590193079587}
-  - component: {fileID: 7170982590193079585}
   - component: {fileID: 7170982590193079584}
+  - component: {fileID: 6782008799164383156}
   - component: {fileID: 7170982590193079588}
   - component: {fileID: 7170982590193079583}
   - component: {fileID: 498701753}
@@ -79,7 +79,6 @@ GameObject:
   - component: {fileID: 1585592917123997789}
   - component: {fileID: 7170982590193079586}
   - component: {fileID: 8028712054236131505}
-  - component: {fileID: 1346442449}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -104,24 +103,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7170982590193079585
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7170982590193079582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c03b821b1edf7564bb6f1ba3f26c3d1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  groundCheckOffset: 0.55
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  controller: {fileID: 7170982590193079586}
-  keybinds: []
 --- !u!114 &7170982590193079584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,9 +116,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementState: 0
-  playerInput: {fileID: 7170982590193079585}
+  playerInput: {fileID: 6782008799164383156}
   playerMovement: {fileID: 7170982590193079583}
   rb: {fileID: 8028712054236131505}
+--- !u!114 &6782008799164383156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7170982590193079582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec5cde1d35dcdb04eaa022ccfd82cb47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 7170982590193079586}
+  keybinds: []
+  mouseBinds: []
+  groundCheckOffset: 0.25
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!114 &7170982590193079588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,7 +246,7 @@ MonoBehaviour:
   activate: 101
   pickUpLayer:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 16
   holdPos: {fileID: 302396194259244640}
   raycastFrom: {fileID: 7170982591482276057}
   showDebugLines: 1
@@ -284,22 +284,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 3
---- !u!114 &1346442449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7170982590193079582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33cba14231186be469503d2c9fd53fd3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  settingsKey: 308
-  settingsPage: {fileID: 0}
-  debugPage: {fileID: 0}
-  debugTxt: {fileID: 0}
 --- !u!1 &7170982591178440927
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,7 +478,6 @@ MonoBehaviour:
   m_StopNaN: 0
   m_Dithering: 0
   m_ClearDepth: 1
-  m_AllowXRRendering: 1
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2

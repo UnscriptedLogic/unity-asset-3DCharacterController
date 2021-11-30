@@ -26,14 +26,14 @@ public class PlayerMovement : MonoBehaviour
     Vector3 movementVector;
 
     PlayerController pController;
-    PlayerInput pInput;
+    PlayerInput3D pInput;
     CharacterController charController;
     List<MovementTypeBase> movementTypes = new List<MovementTypeBase>();
 
     private void Start()
     {
         pController = GetComponent<PlayerController>();
-        pInput = GetComponent<PlayerInput>();
+        pInput = GetComponent<PlayerInput3D>();
         charController = GetComponent<CharacterController>();
 
         initalHeight = charController.height;

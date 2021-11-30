@@ -23,13 +23,13 @@ public class HoldRigidbody : MonoBehaviour
 
     float currentForce;
 
-    PlayerInput playerInput;
+    PlayerInput3D playerInput;
     private GameObject currentlyHeld;
     private Rigidbody heldRb;
 
     private void Start()
     {
-        playerInput = GetComponent<PlayerInput>();
+        playerInput = GetComponent<PlayerController>().playerInput;
 
         playerInput.RegisterKeyBind(PickUp, "Pick Up Object", activate, TriggerType.GetKeyDown);
         playerInput.RegisterKeyBind(Release, "Release Held Object", activate, TriggerType.GetKeyUp);
