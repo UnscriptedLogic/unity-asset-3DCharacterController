@@ -27,12 +27,15 @@ public class SprintMovement : MovementTypeBase
     {
         if (isGrounded())
         {
+            Debug.Log(isSprinting);
+
             if (isSprinting && inputSc.GetVelocity() > 0.05f)
             {
                 //currSpeed += transition * Time.deltaTime;
                 //currSpeed = Mathf.Clamp(currSpeed, 0f, moveSc.GetMasterSpeed() * speedMultiplier);
                 //moveSc.SetSpeed(currSpeed);
                 moveSc.SetSpeed(moveSc.GetMasterSpeed() * speedMultiplier);
+
             } else
             {
                 moveSc.SetSpeed(originalSpeed);
@@ -49,6 +52,7 @@ public class SprintMovement : MovementTypeBase
         controllerSc.SetState(movementState);
 
         isSprinting = true;
+
     }
 
     public void ResetSprint()

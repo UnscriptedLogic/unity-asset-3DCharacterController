@@ -22,6 +22,8 @@ public class PlayerInput3D : PlayerInput
     {
         base.Update();
 
+        CalculateVelocity();
+
         prevPosition = transform.position;
     }
 

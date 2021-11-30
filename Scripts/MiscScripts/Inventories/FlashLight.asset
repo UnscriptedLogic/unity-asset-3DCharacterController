@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: FlashLight
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
-  desc: A fleshlight for you to use
-  myself: {fileID: 0}
+  desc: A flashlight for you to use
+  myself: {fileID: 8369446670816228159, guid: 2222fd9f3c8bea445baf6c3ab9c0308a, type: 3}
+  stackable: 0
+  droppable: 1

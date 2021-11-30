@@ -13,5 +13,9 @@ MonoBehaviour:
   m_Name: Stick
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
-  desc: A dildo
+  desc: 'A Stick
+
+'
   myself: {fileID: 0}
+  stackable: 1
+  droppable: 1

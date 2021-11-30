@@ -31,7 +31,13 @@ public class PlayerInventory : MonoBehaviour
             ItemObject itemScript = lookAt.GetComponent<ItemObject>();
             if (itemScript)
             {
-                playerInventory.AddItem(itemScript.itemScriptable, 5);
+                playerInventory.AddItem(itemScript.itemScriptable, 1, out int remainder);
+
+                for (int i = 0; i < remainder; i++)
+                {
+                    GameObject leftOver = Instantiate(lookAt, spawnLocation.position, transform.rotation);
+                }
+
                 Destroy(lookAt);
             }
         }
@@ -41,8 +47,11 @@ public class PlayerInventory : MonoBehaviour
     {
         if (currentItem < playerInventory.inventory.Count)
         {
-            GameObject droppedItem = Instantiate(playerInventory.inventory[currentItem].GetMyself(), spawnLocation.position, transform.rotation);
-            playerInventory.RemoveAt(currentItem, 1);
+            if (playerInventory.inventory[currentItem].IsDroppable())
+            {
+                GameObject droppedItem = Instantiate(playerInventory.inventory[currentItem].GetMyself(), spawnLocation.position, transform.rotation);
+                playerInventory.RemoveAt(currentItem, 1);
+            }
         }
     }
 }

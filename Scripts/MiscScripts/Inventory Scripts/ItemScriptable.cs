@@ -10,8 +10,11 @@ public class ItemScriptable : ScriptableObject
 {
     public Sprite icon;
 
-    [TextArea(15,20)]
+    [TextArea(15,10)]
     public string desc;
 
+    [Space(100)]
     public GameObject myself;
+    public bool stackable = true;
+    public bool droppable = true;
 }

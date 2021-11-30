@@ -18,6 +18,16 @@ public class ItemSlot
     {
         return itemScriptable.myself;
     }
+
+    public bool IsDroppable()
+    {
+        return itemScriptable.droppable;
+    }
+
+    public bool GetIsStackable()
+    {
+        return itemScriptable.stackable;
+    }
 }
 
 [CreateAssetMenu(fileName = "Inventory Scriptable", menuName = "ScriptableObject/New Inventory")]
@@ -37,12 +47,32 @@ public class InventoryScriptable : ScriptableObject
     }
 
     //Potential to cap certain item amounts => set in scriptable
-    public void AddItem(ItemScriptable itemScriptable, int amount)
+    public void AddItem(ItemScriptable itemScriptable, int amount, out int remainder)
     {
+        remainder = 0;
         if (Contains(itemScriptable, out int index))
         {
-            ItemSlot itemSlot = inventory[index];
-            itemSlot.quantity += amount;
+            if (itemScriptable.stackable)
+            {
+                ItemSlot itemSlot = inventory[index];
+                itemSlot.quantity += amount;
+
+            } else
+            {
+                for (int i = 0; i < amount; i++)
+                {
+                    if (!hasSpace())
+                    {
+                        remainder = (amount - i);
+                        Debug.Log("There was not enough space to add " + remainder + " more of that item");
+                        break;
+                    }
+
+                    inventory.Add(new ItemSlot(itemScriptable, 1));
+                }
+
+                return;
+            }
         } else
         {
             if (!hasSpace())
@@ -51,7 +81,8 @@ public class InventoryScriptable : ScriptableObject
                 return;
             }
 
-            inventory.Add(new ItemSlot(itemScriptable, amount));
+            inventory.Add(new ItemSlot(itemScriptable, 1));
+            AddItem(itemScriptable, amount - 1, out int remain);
         }
     }
 
@@ -75,7 +106,7 @@ public class InventoryScriptable : ScriptableObject
         if (index < inventory.Count)
         {
             ItemSlot itemSlot = inventory[index];
-            if (itemSlot.quantity - amount < 0)
+            if (itemSlot.quantity - amount <= 0)
             {
                 inventory.RemoveAt(index);
             } else
