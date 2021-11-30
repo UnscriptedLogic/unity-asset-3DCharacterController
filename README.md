@@ -6,5 +6,3 @@ Working on creating a flexible inventory system so it may be applied to even non
 Stuff to add on a later date
 - Models and Prefabs yet to be uploaded
 - Character model not yet implemented
-- Seperate Input System into PlayerInput and ThreeDPlayerInput where ThreeDPlayerInput is a subclass of Player Input. This allows for extracting of the input system more flexible
-- Add RegisterClick() alongside RegisterKeyBind()
