@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42b0da2e14eb6fb4a81a5bb9d43ef27e, type: 3}
-  m_Name: PlayerInventory
+  m_Script: {fileID: 11500000, guid: 068dc4c03f1a4654dae205b88d937bc9, type: 3}
+  m_Name: DummyCube
   m_EditorClassIdentifier: 
-  maxSize: 5
-  inventory:
-  - itemScriptable: {fileID: 11400000, guid: 91e4f437b9561034d823572e7cfedf38, type: 2}
-    quantity: 1
+  icon: {fileID: 0}
+  desc: 
+  myself: {fileID: 826479590320103054, guid: cc8d3414036682e46912563a0402c239, type: 3}
+  stackable: 0
+  droppable: 1
