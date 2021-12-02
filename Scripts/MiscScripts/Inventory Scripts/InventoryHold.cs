@@ -15,11 +15,9 @@ public class InventoryHold : MonoBehaviour
     private void Start()
     {
         inventory = GetComponent<Inventory>();
-    }
 
-    private void Update()
-    {
-        SomeMethod();
+        inventory.RegisterInventoryEvent(SomeMethod);
+        inventory.RegisterInventoryEvent(RemoveHolding, InventoryEvents.DropItem);
     }
 
     public void SomeMethod()
@@ -30,8 +28,35 @@ public class InventoryHold : MonoBehaviour
             {
                 return;
             }
+            GameObject primaryGO = inventory.GetInventory()[inventory.GetCurrentIndex()].GetMyself();
+            GameObject secondaryGO = inventory.GetInventory()[inventory.GetCurrentIndex()].GetSecondaryObject();
+            GameObject whatToCreate = secondaryGO == null ? primaryGO : secondaryGO;
+            held = Instantiate(whatToCreate, equipPosition.position, equipPosition.rotation, equipPosition);
 
-            held = Instantiate(inventory.GetInventory()[inventory.GetCurrentIndex()].GetMyself(), equipPosition.position, transform.rotation, equipPosition);
+            if (held.GetComponent<Rigidbody>())
+                held.GetComponent<Rigidbody>().isKinematic = true;
+        }
+    }
+
+    public void RemoveHolding()
+    {
+        Debug.Log(inventory.GetInventory().Count);
+        int inventorySize = inventory.GetInventory().Count;
+        if (inventorySize > 0)
+        {
+            if (inventory.GetInventory()[inventory.GetCurrentIndex()].quantity - 1 <= 0)
+            {
+                if (held != null)
+                {
+                    Destroy(held);
+                    held = null;
+
+                    if (inventorySize > 0)
+                    {
+                        SomeMethod();
+                    }
+                }
+            }
         }
     }
 }

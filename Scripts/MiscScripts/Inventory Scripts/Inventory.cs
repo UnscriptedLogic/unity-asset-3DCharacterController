@@ -1,6 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+public enum InventoryEvents
+{
+    AddItem,
+    DropItem
+}
 
 public class Inventory : MonoBehaviour
 {
@@ -15,6 +22,9 @@ public class Inventory : MonoBehaviour
 
     private int currentItem = 0;
     public Transform spawnLocation;
+
+    public event Action onAddItem;
+    public event Action onDropItem;
 
     private void Start()
     {
@@ -31,7 +41,8 @@ public class Inventory : MonoBehaviour
             ItemObject itemScript = lookAt.GetComponent<ItemObject>();
             if (itemScript)
             {
-                playerInventory.AddItem(itemScript.itemScriptable, 1, out int remainder);
+                itemScript.SaveProperties();
+                playerInventory.AddItem(itemScript.itemScriptable, itemScript.baseProperties, 1, out int remainder);
 
                 //Use this if your system has stackable items in a single gameobject.
                 //for (int i = 0; i < remainder; i++)
@@ -43,8 +54,11 @@ public class Inventory : MonoBehaviour
                 {
                     Destroy(lookAt);
                 }
+
+                onAddItem?.Invoke();
             }
         }
+
     }
 
     private void DropItem()
@@ -53,10 +67,18 @@ public class Inventory : MonoBehaviour
         {
             if (playerInventory.inventory[currentItem].IsDroppable())
             {
+                onDropItem?.Invoke();
+
                 GameObject droppedItem = Instantiate(playerInventory.inventory[currentItem].GetMyself(), spawnLocation.position, transform.rotation);
+                ItemObject itemObject = droppedItem.GetComponent<ItemObject>();
+                itemObject.baseProperties = playerInventory.inventory[currentItem].baseProperties;
+
+                itemObject.InitProperties();
+
                 playerInventory.RemoveAt(currentItem, 1);
             }
         }
+
     }
 
     public List<ItemSlot> GetInventory()
@@ -77,5 +99,20 @@ public class Inventory : MonoBehaviour
     public void SetCurrentIndex(int index)
     {
         currentItem = index;
+    }
+
+    public void RegisterInventoryEvent(Action method, InventoryEvents inventoryEvents = InventoryEvents.AddItem)
+    {
+        switch (inventoryEvents)
+        {
+            case InventoryEvents.AddItem:
+                onAddItem += method;
+                break;
+            case InventoryEvents.DropItem:
+                onDropItem += method;
+                break;
+            default:
+                break;
+        }
     }
 }

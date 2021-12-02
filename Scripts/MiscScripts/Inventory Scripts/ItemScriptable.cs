@@ -15,6 +15,7 @@ public class ItemScriptable : ScriptableObject
 
     [Space(100)]
     public GameObject myself;
+    public GameObject secondaryObject;
     public bool stackable = true;
     public bool droppable = true;
 }

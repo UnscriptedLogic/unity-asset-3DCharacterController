@@ -6,14 +6,18 @@ using UnityEngine;
 public class ItemSlot
 {
     public ItemScriptable itemScriptable;
+    public ItemBaseProperties baseProperties;
     public int quantity;
 
-    public ItemSlot(ItemScriptable item, int _amount)
+    public ItemSlot(ItemScriptable item, ItemBaseProperties _baseProperties, int _amount)
     {
         itemScriptable = item;
         quantity = _amount;
+        baseProperties = _baseProperties;
     }
     
+    public GameObject GetSecondaryObject() { return itemScriptable.secondaryObject; }
+
     public GameObject GetMyself()
     {
         return itemScriptable.myself;
@@ -47,7 +51,7 @@ public class InventoryScriptable : ScriptableObject
     }
 
     //Potential to cap certain item amounts => set in scriptable
-    public void AddItem(ItemScriptable itemScriptable, int amount, out int remainder)
+    public void AddItem(ItemScriptable itemScriptable, ItemBaseProperties properties, int amount, out int remainder)
     {
         remainder = 0;
         if (Contains(itemScriptable, out int index))
@@ -68,7 +72,7 @@ public class InventoryScriptable : ScriptableObject
                         break;
                     }
 
-                    inventory.Add(new ItemSlot(itemScriptable, 1));
+                    inventory.Add(new ItemSlot(itemScriptable, properties, 1));
                 }
 
                 return;
@@ -81,8 +85,8 @@ public class InventoryScriptable : ScriptableObject
                 return;
             }
 
-            inventory.Add(new ItemSlot(itemScriptable, 1));
-            AddItem(itemScriptable, amount - 1, out int remain);
+            inventory.Add(new ItemSlot(itemScriptable, properties, 1));
+            AddItem(itemScriptable, properties, amount - 1, out int remain);
         }
     }
 
