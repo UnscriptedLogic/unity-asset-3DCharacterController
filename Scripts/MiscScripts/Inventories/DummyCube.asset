@@ -15,5 +15,5 @@ MonoBehaviour:
   icon: {fileID: 0}
   desc: 
   myself: {fileID: 826479590320103054, guid: cc8d3414036682e46912563a0402c239, type: 3}
-  stackable: 0
+  stackable: 1
   droppable: 1

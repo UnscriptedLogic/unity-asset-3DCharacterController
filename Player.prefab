@@ -309,7 +309,7 @@ MonoBehaviour:
   activate: 102
   pickUpLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 1024
   holdPos: {fileID: 302396194259244640}
   raycastFrom: {fileID: 7170982591482276057}
   showDebugLines: 1
@@ -374,7 +374,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7170982590193079582}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c862fc2a0afc78d45b3d14361567bfb7, type: 3}
   m_Name: 
@@ -576,6 +576,7 @@ MonoBehaviour:
   m_StopNaN: 0
   m_Dithering: 0
   m_ClearDepth: 1
+  m_AllowXRRendering: 1
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
