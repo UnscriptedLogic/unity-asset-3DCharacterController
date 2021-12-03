@@ -7,7 +7,7 @@ public class Inventory : MonoBehaviour
 {
     public InventoryScriptable inventoryScriptable;
     public KeyCode interactKey = KeyCode.E;
-    public KeyCode dropKey = KeyCode.Q;
+    public KeyCode dropKey = KeyCode.T;
 
     public LayerMask equipLayer;
     public float equipDistance = 5f;
@@ -78,9 +78,14 @@ public class Inventory : MonoBehaviour
         return currentItem;
     }
 
-    public int GetInventorySize()
+    public int GetCurrentSize()
     {
         return inventoryScriptable.inventory.Count;
+    }
+
+    public int GetMaxSize()
+    {
+        return inventoryScriptable.maxSize;
     }
 
     public void SetCurrentIndex(int index)
