@@ -212,6 +212,16 @@ public class PlayerInput : MonoBehaviour
         return null;
     }
 
+    public GameObject RaycastCamera(out RaycastHit newHit, float distance = Mathf.Infinity)
+    {
+        if (Physics.Raycast(GetCamMouseRay(), out newHit, distance))
+        {
+            return newHit.collider.gameObject;
+        }
+
+        return null;
+    }
+
     #endregion
 
     #region Relative Raycasting
