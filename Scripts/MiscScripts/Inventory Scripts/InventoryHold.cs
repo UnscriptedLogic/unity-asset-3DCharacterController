@@ -6,7 +6,7 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class InventoryHold : MonoBehaviour
 {
-    Inventory inventory;
+    Inventory inventoryScript;
 
     public Transform equipPosition;
 
@@ -14,49 +14,42 @@ public class InventoryHold : MonoBehaviour
 
     private void Start()
     {
-        inventory = GetComponent<Inventory>();
+        inventoryScript = GetComponent<Inventory>();
 
-        inventory.RegisterInventoryEvent(SomeMethod);
-        inventory.RegisterInventoryEvent(RemoveHolding, InventoryEvents.DropItem);
+        inventoryScript.inventoryScriptable.RegisterInventoryEvent(EquipMethod);
+        inventoryScript.inventoryScriptable.RegisterInventoryEvent(RemoveHolding, InventoryEvents.ItemDropped);
     }
 
-    public void SomeMethod()
+    public void EquipMethod()
     {
-        if (inventory.GetInventoryLength() > 0)
+        if (inventoryScript.GetInventorySize() > 0)
         {
             if (held != null)
             {
                 return;
             }
-            GameObject primaryGO = inventory.GetInventory()[inventory.GetCurrentIndex()].GetMyself();
-            GameObject secondaryGO = inventory.GetInventory()[inventory.GetCurrentIndex()].GetSecondaryObject();
+
+            GameObject primaryGO = inventoryScript.GetInventory()[inventoryScript.GetCurrentIndex()].GetMyself();
+            GameObject secondaryGO = inventoryScript.GetInventory()[inventoryScript.GetCurrentIndex()].GetSecondaryObject();
             GameObject whatToCreate = secondaryGO == null ? primaryGO : secondaryGO;
             held = Instantiate(whatToCreate, equipPosition.position, equipPosition.rotation, equipPosition);
 
             if (held.GetComponent<Rigidbody>())
                 held.GetComponent<Rigidbody>().isKinematic = true;
+
+            if (held.GetComponent<BoxCollider>())
+                held.GetComponent<BoxCollider>().enabled = false;
         }
     }
 
     public void RemoveHolding()
     {
-        Debug.Log(inventory.GetInventory().Count);
-        int inventorySize = inventory.GetInventory().Count;
-        if (inventorySize > 0)
+        if (held != null)
         {
-            if (inventory.GetInventory()[inventory.GetCurrentIndex()].quantity - 1 <= 0)
-            {
-                if (held != null)
-                {
-                    Destroy(held);
-                    held = null;
+            Destroy(held);
+            held = null;
 
-                    if (inventorySize > 0)
-                    {
-                        SomeMethod();
-                    }
-                }
-            }
+            EquipMethod();
         }
     }
 }

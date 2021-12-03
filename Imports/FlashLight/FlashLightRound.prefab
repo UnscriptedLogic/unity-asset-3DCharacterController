@@ -224,3 +224,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemScriptable: {fileID: 11400000, guid: 4e8759906e3304c44ab8ff9733c54a5f, type: 2}
+  baseProperties:
+    scale: {x: 0, y: 0, z: 0}
+  meshRenderer:
+  - {fileID: 8009303492256338666}
+  disableNotViewed:
+  - {fileID: 2899363560187105795}

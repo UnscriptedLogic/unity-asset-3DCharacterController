@@ -10,12 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 068dc4c03f1a4654dae205b88d937bc9, type: 3}
-  m_Name: Stick
+  m_Name: Gun
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
-  desc: 'A Stick
-
-'
-  myself: {fileID: 0}
-  stackable: 1
+  desc: A gun that fires bullets
+  myself: {fileID: 3770909918729019172, guid: b4a0f0752bc293544a578c319761e795, type: 3}
+  secondaryObject: {fileID: 1699496338448603897, guid: f296177b1bd7e1f4785f5768ababfeb3, type: 3}
+  stackable: 0
   droppable: 1

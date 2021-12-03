@@ -3,15 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum InventoryEvents
-{
-    AddItem,
-    DropItem
-}
-
 public class Inventory : MonoBehaviour
 {
-    public InventoryScriptable playerInventory;
+    public InventoryScriptable inventoryScriptable;
     public KeyCode interactKey = KeyCode.E;
     public KeyCode dropKey = KeyCode.Q;
 
@@ -22,9 +16,6 @@ public class Inventory : MonoBehaviour
 
     private int currentItem = 0;
     public Transform spawnLocation;
-
-    public event Action onAddItem;
-    public event Action onDropItem;
 
     private void Start()
     {
@@ -42,7 +33,7 @@ public class Inventory : MonoBehaviour
             if (itemScript)
             {
                 itemScript.SaveProperties();
-                playerInventory.AddItem(itemScript.itemScriptable, itemScript.baseProperties, 1, out int remainder);
+                inventoryScriptable.AddItem(itemScript.itemScriptable, itemScript.baseProperties, 1, out int remainder);
 
                 //Use this if your system has stackable items in a single gameobject.
                 //for (int i = 0; i < remainder; i++)
@@ -54,8 +45,6 @@ public class Inventory : MonoBehaviour
                 {
                     Destroy(lookAt);
                 }
-
-                onAddItem?.Invoke();
             }
         }
 
@@ -63,19 +52,17 @@ public class Inventory : MonoBehaviour
 
     private void DropItem()
     {
-        if (currentItem < playerInventory.inventory.Count)
+        if (currentItem < inventoryScriptable.inventory.Count)
         {
-            if (playerInventory.inventory[currentItem].IsDroppable())
+            if (inventoryScriptable.inventory[currentItem].IsDroppable())
             {
-                onDropItem?.Invoke();
-
-                GameObject droppedItem = Instantiate(playerInventory.inventory[currentItem].GetMyself(), spawnLocation.position, transform.rotation);
+                GameObject droppedItem = Instantiate(inventoryScriptable.inventory[currentItem].GetMyself(), spawnLocation.position, transform.rotation);
                 ItemObject itemObject = droppedItem.GetComponent<ItemObject>();
-                itemObject.baseProperties = playerInventory.inventory[currentItem].baseProperties;
+                itemObject.baseProperties = inventoryScriptable.inventory[currentItem].baseProperties;
 
                 itemObject.InitProperties();
 
-                playerInventory.RemoveAt(currentItem, 1);
+                inventoryScriptable.RemoveAt(currentItem, 1);
             }
         }
 
@@ -83,7 +70,7 @@ public class Inventory : MonoBehaviour
 
     public List<ItemSlot> GetInventory()
     {
-        return playerInventory.inventory;
+        return inventoryScriptable.inventory;
     }
 
     public int GetCurrentIndex()
@@ -91,28 +78,13 @@ public class Inventory : MonoBehaviour
         return currentItem;
     }
 
-    public int GetInventoryLength()
+    public int GetInventorySize()
     {
-        return playerInventory.inventory.Count;
+        return inventoryScriptable.inventory.Count;
     }
 
     public void SetCurrentIndex(int index)
     {
         currentItem = index;
-    }
-
-    public void RegisterInventoryEvent(Action method, InventoryEvents inventoryEvents = InventoryEvents.AddItem)
-    {
-        switch (inventoryEvents)
-        {
-            case InventoryEvents.AddItem:
-                onAddItem += method;
-                break;
-            case InventoryEvents.DropItem:
-                onDropItem += method;
-                break;
-            default:
-                break;
-        }
     }
 }

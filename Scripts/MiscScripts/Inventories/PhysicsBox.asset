@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PhysicsBox
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
-  desc: 
+  desc: A box made from scriptodide with a strange behaviour
   myself: {fileID: 7266541514465577260, guid: f59b9dce4246af8498883389db03b4bc, type: 3}
   secondaryObject: {fileID: 7072351765214568461, guid: bada2e6aab3913745a8cc46d55428d2c, type: 3}
   stackable: 1

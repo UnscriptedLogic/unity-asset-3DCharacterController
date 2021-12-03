@@ -27,8 +27,6 @@ public class SprintMovement : MovementTypeBase
     {
         if (isGrounded())
         {
-            Debug.Log(isSprinting);
-
             if (isSprinting && inputSc.GetVelocity() > 0.05f)
             {
                 //currSpeed += transition * Time.deltaTime;

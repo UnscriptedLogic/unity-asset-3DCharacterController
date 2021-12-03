@@ -48,6 +48,11 @@ public class MouseBind
     }
 
     public void TriggerEvent() { mouseEvent?.Invoke(); }
+
+    public bool hasSubcribers()
+    {
+        return mouseEvent?.GetInvocationList().Length > 0;
+    }
 }
 
 public class PlayerInput : MonoBehaviour
@@ -162,6 +167,22 @@ public class PlayerInput : MonoBehaviour
     public void RegisterMouseBind(Action function, string bindName = "Unnamed Bind", int buttonSide = 0, TriggerType trigger = TriggerType.GetKeyDown)
     {
         mouseBinds.Add(new MouseBind(bindName, buttonSide, trigger, function));
+    }
+
+    public void UnRegisterMousebind(Action method, string bindName)
+    {
+        for (int i = 0; i < mouseBinds.Count; i++)
+        {
+            if (mouseBinds[i].bindName == bindName)
+            {
+                mouseBinds[i].mouseEvent -= method;
+
+                if (!mouseBinds[i].hasSubcribers())
+                {
+                    mouseBinds.RemoveAt(i);
+                }
+            }
+        }
     }
 
     public Ray GetCamMouseRay()

@@ -1,6 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+public enum InventoryEvents
+{
+    ItemAdded,
+    ItemDropped,
+    QuantityIncremented,
+    QuantityDecremented
+}
 
 [System.Serializable]
 public class ItemSlot
@@ -8,6 +17,8 @@ public class ItemSlot
     public ItemScriptable itemScriptable;
     public ItemBaseProperties baseProperties;
     public int quantity;
+
+
 
     public ItemSlot(ItemScriptable item, ItemBaseProperties _baseProperties, int _amount)
     {
@@ -40,6 +51,11 @@ public class InventoryScriptable : ScriptableObject
     public int maxSize;
     public List<ItemSlot> inventory = new List<ItemSlot>();
 
+    public event Action onItemAdded;
+    public event Action onItemDropped;
+    public event Action onQuantityIncremented;
+    public event Action onQuantityDecremented;
+
     public void SetSize(int _size)
     {
         maxSize = _size;
@@ -48,6 +64,16 @@ public class InventoryScriptable : ScriptableObject
     public bool hasSpace()
     {
         return inventory.Count < maxSize;
+    }
+
+    public ItemSlot GetItemAt(int index)
+    {
+        if (index < inventory.Count)
+        {
+            return inventory[index];
+        }
+
+        return null;
     }
 
     //Potential to cap certain item amounts => set in scriptable
@@ -61,6 +87,8 @@ public class InventoryScriptable : ScriptableObject
                 ItemSlot itemSlot = inventory[index];
                 itemSlot.quantity += amount;
 
+                onQuantityIncremented?.Invoke();
+
             } else
             {
                 for (int i = 0; i < amount; i++)
@@ -73,6 +101,7 @@ public class InventoryScriptable : ScriptableObject
                     }
 
                     inventory.Add(new ItemSlot(itemScriptable, properties, 1));
+                    onItemAdded?.Invoke();
                 }
 
                 return;
@@ -87,6 +116,7 @@ public class InventoryScriptable : ScriptableObject
 
             inventory.Add(new ItemSlot(itemScriptable, properties, 1));
             AddItem(itemScriptable, properties, amount - 1, out int remain);
+            onItemAdded?.Invoke();
         }
     }
 
@@ -98,9 +128,11 @@ public class InventoryScriptable : ScriptableObject
             if (itemSlot.quantity - amount < 0)
             {
                 inventory.RemoveAt(index);
+                onItemDropped?.Invoke();
             } else
             {
                 itemSlot.quantity -= amount;
+                onQuantityDecremented?.Invoke();
             }
         }
     }
@@ -113,9 +145,11 @@ public class InventoryScriptable : ScriptableObject
             if (itemSlot.quantity - amount <= 0)
             {
                 inventory.RemoveAt(index);
+                onItemDropped?.Invoke();
             } else
             {
                 itemSlot.quantity -= amount;
+                onQuantityDecremented?.Invoke();
             }
         }
     }
@@ -167,4 +201,29 @@ public class InventoryScriptable : ScriptableObject
     }
 
     #endregion
+
+    public void RegisterInventoryEvent(Action method, InventoryEvents invEvent = InventoryEvents.ItemAdded)
+    {
+        switch (invEvent)
+        {
+            case InventoryEvents.ItemAdded:
+                onItemAdded += method;
+                break;
+
+            case InventoryEvents.ItemDropped:
+                onItemDropped += method;
+                break;
+
+            case InventoryEvents.QuantityIncremented:
+                onQuantityIncremented += method;
+                break;
+
+            case InventoryEvents.QuantityDecremented:
+                onQuantityDecremented += method;
+                break;
+
+            default:
+                break;
+        }
+    }
 }
