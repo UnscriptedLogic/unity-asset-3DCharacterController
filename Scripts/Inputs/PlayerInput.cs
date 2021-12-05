@@ -190,6 +190,40 @@ public class PlayerInput : MonoBehaviour
         return cam.ScreenPointToRay(Input.mousePosition);
     }
 
+    public bool FindComponentRaycast<T>(out T component, float distance = Mathf.Infinity)
+    {
+        GameObject lookAt = RaycastCamera(distance);
+        if (lookAt)
+        {
+            if (lookAt.GetComponent<T>() != null)
+            {
+                component = lookAt.GetComponent<T>();
+                return true;
+            }
+        }
+
+        component = transform.GetComponent<T>();
+        return false;
+    }
+
+    public bool FindComponentRaycast<T>(out T component, out GameObject target,float distance = Mathf.Infinity)
+    {
+        GameObject lookAt = RaycastCamera(distance);
+        if (lookAt)
+        {
+            if (lookAt.GetComponent<T>() != null)
+            {
+                component = lookAt.GetComponent<T>();
+                target = lookAt;
+                return true;
+            }
+        }
+
+        component = transform.GetComponent<T>();
+        target = null;
+        return false;
+    }
+
     #region Camera Raycasting
 
     public GameObject RaycastCamera(float distance = Mathf.Infinity)

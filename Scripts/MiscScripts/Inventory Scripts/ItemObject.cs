@@ -21,4 +21,9 @@ public class ItemObject : MonoBehaviour
     {
         baseProperties.scale = transform.localScale;
     }
+
+    public virtual void Interact()
+    {
+
+    }
 }
