@@ -26,14 +26,12 @@ public class Inventory : MonoBehaviour
 
     private void AddItemToInven()
     {
-        GameObject lookAt = playerInput.RaycastCamera(equipDistance);
-        if (lookAt)
+        if (playerInput.FindComponentRaycast(out ItemObject itemObject, out GameObject target, equipDistance))
         {
-            ItemObject itemScript = lookAt.GetComponent<ItemObject>();
-            if (itemScript)
+            if (itemObject.itemScriptable)
             {
-                itemScript.SaveProperties();
-                inventoryScriptable.AddItem(itemScript.itemScriptable, itemScript.baseProperties, 1, out int remainder);
+                itemObject.SaveProperties();
+                inventoryScriptable.AddItem(itemObject.itemScriptable, itemObject.baseProperties, 1, out int remainder);
 
                 //Use this if your system has stackable items in a single gameobject.
                 //for (int i = 0; i < remainder; i++)
@@ -43,11 +41,10 @@ public class Inventory : MonoBehaviour
 
                 if (remainder <= 0)
                 {
-                    Destroy(lookAt);
+                    Destroy(target);
                 }
             }
         }
-
     }
 
     private void DropItem()
