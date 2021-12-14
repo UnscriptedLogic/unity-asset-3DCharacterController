@@ -174,6 +174,8 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
+    public 
+
     //Registers a function to a keybind
     public void RegisterKeyBind(Action function, 
                                 string bindName = "Unnamed Keybind", 
