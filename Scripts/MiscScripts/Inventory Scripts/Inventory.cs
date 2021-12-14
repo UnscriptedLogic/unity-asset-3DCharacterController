@@ -12,7 +12,8 @@ public class Inventory : MonoBehaviour
     public LayerMask equipLayer;
     public float equipDistance = 5f;
 
-    PlayerInput playerInput;
+    [HideInInspector]
+    public PlayerInput playerInput;
 
     private int currentItem = 0;
     public Transform spawnLocation;

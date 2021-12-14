@@ -30,6 +30,25 @@ public class Keybind
     public void TriggerEvent() { keyEvent?.Invoke(); }
 }
 
+public class Numbind
+{
+    public string bindname;
+    public int num;
+    public TriggerType triggerType;
+    public event Action<int> keyEvent;
+
+    public Numbind(Action<int> method, string _name, int _num, TriggerType trigger)
+    {
+        bindname = _name;
+        num = _num;
+        triggerType = trigger;
+
+        keyEvent += method;
+    }
+
+    public void Triggerevent(int numPad) { keyEvent?.Invoke(numPad); }
+}
+
 [Serializable]
 public class MouseBind
 {
@@ -63,6 +82,7 @@ public class PlayerInput : MonoBehaviour
 
     public List<Keybind> keybinds = new List<Keybind>();
     public List<MouseBind> mouseBinds = new List<MouseBind>();
+    public List<Numbind> numbinds= new List<Numbind>();
 
     public Vector3 GetDirectionalInput()
     {
@@ -88,7 +108,7 @@ public class PlayerInput : MonoBehaviour
     {
         KeyBindMethod();
         MouseBindMethod();
-
+        
     }
 
     private void KeyBindMethod()
@@ -154,6 +174,8 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
+    public 
+
     //Registers a function to a keybind
     public void RegisterKeyBind(Action function, 
                                 string bindName = "Unnamed Keybind", 
@@ -168,6 +190,8 @@ public class PlayerInput : MonoBehaviour
     {
         mouseBinds.Add(new MouseBind(bindName, buttonSide, trigger, function));
     }
+
+
 
     public void UnRegisterMousebind(Action method, string bindName)
     {
@@ -190,6 +214,7 @@ public class PlayerInput : MonoBehaviour
         return cam.ScreenPointToRay(Input.mousePosition);
     }
 
+    //A simplified version of a raycast to find a component only
     public bool FindComponentRaycast<T>(out T component, float distance = Mathf.Infinity)
     {
         GameObject lookAt = RaycastCamera(distance);
@@ -206,7 +231,7 @@ public class PlayerInput : MonoBehaviour
         return false;
     }
 
-    public bool FindComponentRaycast<T>(out T component, out GameObject target,float distance = Mathf.Infinity)
+    public bool FindComponentRaycast<T>(out T component, out GameObject target, float distance = Mathf.Infinity)
     {
         GameObject lookAt = RaycastCamera(distance);
         if (lookAt)

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068dc4c03f1a4654dae205b88d937bc9, type: 3}
   m_Name: PhysicsBox
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 640baa79ebb4c5244a6cf21b10c0bcfa, type: 3}
   desc: A box made from scriptodide with a strange behaviour
   myself: {fileID: 7266541514465577260, guid: f59b9dce4246af8498883389db03b4bc, type: 3}
   secondaryObject: {fileID: 7072351765214568461, guid: bada2e6aab3913745a8cc46d55428d2c, type: 3}

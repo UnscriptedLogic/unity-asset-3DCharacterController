@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068dc4c03f1a4654dae205b88d937bc9, type: 3}
   m_Name: FlashLight
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 1b9fa2c480a131f4686c79c2fa9e07ad, type: 3}
   desc: A flashlight for you to use
   myself: {fileID: 8369446670816228159, guid: 2222fd9f3c8bea445baf6c3ab9c0308a, type: 3}
   secondaryObject: {fileID: 6408034929698660992, guid: dcb2046a86fed37418cebd5b403cad6b, type: 3}

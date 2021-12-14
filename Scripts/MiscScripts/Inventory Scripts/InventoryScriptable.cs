@@ -5,6 +5,7 @@ using UnityEngine;
 
 public enum InventoryEvents
 {
+    Any,
     ItemAdded,
     ItemDropped,
     QuantityIncremented,
@@ -43,6 +44,11 @@ public class ItemSlot
     {
         return itemScriptable.stackable;
     }
+
+    public Sprite GetIcon()
+    {
+        return itemScriptable.icon;
+    }
 }
 
 [CreateAssetMenu(fileName = "Inventory Scriptable", menuName = "ScriptableObject/New Inventory")]
@@ -51,6 +57,7 @@ public class InventoryScriptable : ScriptableObject
     public int maxSize;
     public List<ItemSlot> inventory = new List<ItemSlot>();
 
+    public event Action onAnyEvent;
     public event Action onItemAdded;
     public event Action onItemDropped;
     public event Action onQuantityIncremented;
@@ -88,6 +95,7 @@ public class InventoryScriptable : ScriptableObject
                 itemSlot.quantity += amount;
 
                 onQuantityIncremented?.Invoke();
+                onAnyEvent?.Invoke();
 
             } else
             {
@@ -102,6 +110,7 @@ public class InventoryScriptable : ScriptableObject
 
                     inventory.Add(new ItemSlot(itemScriptable, properties, 1));
                     onItemAdded?.Invoke();
+                    onAnyEvent?.Invoke();
                 }
 
                 return;
@@ -117,6 +126,7 @@ public class InventoryScriptable : ScriptableObject
             inventory.Add(new ItemSlot(itemScriptable, properties, 1));
             AddItem(itemScriptable, properties, amount - 1, out int remain);
             onItemAdded?.Invoke();
+            onAnyEvent?.Invoke();
         }
     }
 
@@ -129,10 +139,12 @@ public class InventoryScriptable : ScriptableObject
             {
                 inventory.RemoveAt(index);
                 onItemDropped?.Invoke();
+                onAnyEvent?.Invoke();
             } else
             {
                 itemSlot.quantity -= amount;
                 onQuantityDecremented?.Invoke();
+                onAnyEvent?.Invoke();
             }
         }
     }
@@ -146,10 +158,12 @@ public class InventoryScriptable : ScriptableObject
             {
                 inventory.RemoveAt(index);
                 onItemDropped?.Invoke();
+                onAnyEvent?.Invoke();
             } else
             {
                 itemSlot.quantity -= amount;
                 onQuantityDecremented?.Invoke();
+                onAnyEvent?.Invoke();
             }
         }
     }
@@ -206,6 +220,10 @@ public class InventoryScriptable : ScriptableObject
     {
         switch (invEvent)
         {
+            case InventoryEvents.Any:
+                onAnyEvent += method;
+                break;
+
             case InventoryEvents.ItemAdded:
                 onItemAdded += method;
                 break;
